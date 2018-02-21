@@ -1,5 +1,9 @@
 import { Router } from 'express';
 
+import rp from 'request-promise';
+import validUrl from 'valid-url';
+import errors from 'throw.js';
+
 const routes = Router();
 
 /**
@@ -10,27 +14,40 @@ routes.get('/', (req, res) => {
 });
 
 /**
- * GET /list
+ * GET /article
  *
- * This is a sample route demonstrating
- * a simple approach to error handling and testing
- * the global error handler. You most certainly want to
- * create different/better error handlers depending on
- * your use case.
+ * Proxies requests to Mercury's Web Parser API. The private API key is added
+ * to the request. Accepts only one parameter: URL
+ * See https://mercury.postlight.com/web-parser/
  */
-routes.get('/list', (req, res, next) => {
-  const { title } = req.query;
+routes.get('/article', (req, res, next) => {
+  const { url } = req.query;
 
-  if (title == null || title === '') {
-    // You probably want to set the response HTTP status to 400 Bad Request
-    // or 422 Unprocessable Entity instead of the default 500 of
-    // the global error handler (e.g check out https://github.com/kbariotis/throw.js).
-    // This is just for demo purposes.
-    next(new Error('The "title" parameter is required'));
-    return;
+  // verify url is valid
+  if (url == null) {
+    next(new errors.BadRequest('Missing URL query parameter', 'Missing-URL'));
+  } else if (url === '') {
+    next(new errors.BadRequest('Empty URL query parameter', 'Empty-URL'));
+  } else if (!validUrl.isUri(url)) {
+    next(new errors.BadRequest('Invalid URL query paramter', 'Invalid-URL'));
   }
 
-  res.render('index', { title });
+  const options = {
+    uri: 'https://mercury.postlight.com/parser',
+    qs: {
+      url
+    },
+    headers: {
+      'x-api-key': process.env.MERCURY_API_KEY,
+      'Content-Type': 'application/json'
+    },
+    json: true
+  };
+
+  rp(options)
+  .then((article) => res.status(200).json(article))
+  .catch((err) => next(err));
+
 });
 
 export default routes;

@@ -34,7 +34,11 @@
     "express": "^4.16.2",
     "morgan": "^1.9.0",
     "pug": "^2.0.0-rc.4",
-    "rimraf": "^2.6.2"
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
+    "rimraf": "^2.6.2",
+    "throw.js": "^3.0.1",
+    "valid-url": "^1.0.9"
   },
   "devDependencies": {
     "babel-eslint": "^8.0.3",

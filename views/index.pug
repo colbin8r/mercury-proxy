@@ -2,4 +2,11 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  p Welcome to #{title}!
+  p This is a server for proxying requests to the #[a(href='https://mercury.postlight.com/web-parser/' target='_blank') Mercury Web Parser API].
+  p The Mercury Web Parser is fed the URL of an article on the web and in return gives you the article content in a sanitized way as well as a bit of metadata about the article, like the number of words.
+  p You can call the Mercury API by #[code GET]ting to #[code #[a(href='/article' target='_blank') /article]] on this server in exactly the same way as you would the Mercury API, except that you don't need to include an API key. :) That's what this proxy server is for&mdash;it proxies an API key for you. You won't be able to see the API key, though, even in the source, because it's not there. The whole point of this server is to keep the API key hidden exactly how Postlight Labs recommends using Mercury.
+  p You can see an example of the kind of data this server returns #[a(href='/article?url=https://www.wired.com/2016/09/ode-rosetta-spacecraft-going-die-comet/' target='_blank') here]. It's some JSON data, so you might want to format it to be a bit prettier to get a good idea of the data.
+  p See more about and the source for this server at #[a(href='https://github.com/colbin8r/mercury-proxy' target='_blank') the GitHub repo].
+  p That's all there is to this server. If you hit any other URL on it, you'll get a very generic #[a(href='/404' target='_blank') 404 page].
+  p Contact me with any questions: Colby Rogness (#[a(href='https://github.com/colbin8r/' target='_blank') @colbin8r]) &lt;#[a(href='mailto:colbyrogness@gmail.com') colbyrogness@gmail.com]&gt;

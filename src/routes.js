@@ -10,7 +10,7 @@ const routes = Router();
  * GET home page
  */
 routes.get('/', (req, res) => {
-  res.render('index', { title: 'Express Babel' });
+  res.render('index', { title: 'Mercury Web Parser Proxy' });
 });
 
 /**
